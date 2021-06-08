@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="Description" content="Enter your description here" />
+    <link rel="shortcut icon" href="./img/quote.png" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <style>
+      body {
+        background: rgba(0, 0, 0, 0.7)
+          url(https://source.unsplash.com/1600x900/?nature,quotes);
+        background-size: cover;
+        background-blend-mode: darken;
+      }
+
+      .divcon {
+        width: 100vw;
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .aligned::before {
+        content: "\201C";
+        position: relative;
+        left: -0.5%;
+        margin-left: -5%;
+      }
+
+      .aligned::after {
+        content: "\201D";
+      }
+
+      .quoted {
+        font-size: 1.6em;
+        color: #fff;
+        font-family: courier, mono-space;
+      }
+      #author {
+        opacity: 0.5;
+      }
+      @media only screen and (max-width: 600px) {
+        .qpara {
+          font-size: 25px;
+          font-family: "BureauGrotesque-OneSeven", Impact, sans-serif;
+          text-transform: uppercase;
+          line-height: 40px;
+          color: #fff;
+          margin-left: 30px;
+        }
+      }
+      @media only screen and (min-width: 600px) {
+        .qpara {
+          font-family: "BureauGrotesque-OneSeven", Impact, sans-serif;
+          text-transform: uppercase;
+          font-size: 4em;
+          color: #fff;
+          -webkit-font-smoothing: antialiased;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+
+    <title>GREAT QUOTES</title>
+  </head>
+  <body>
+    <div class="container mt-5 divcon">
+      <div id="quet"></div>
+      <div id="author"></div>
+      <button id="newquot" class="btn btn-primary mt-3">new quotes</button>
+    </div>
+    <script>
+      const textPlacer = document.getElementById("quet");
+      const authorPlace = document.getElementById("author");
+      const btnQuet = document.getElementById("newquot");
+      let arrData = "";
+      //function
+      const getNewquet = () => {
+        let rnum = parseInt(Math.random() * 1642);
+        // console.log(rnum);
+        textPlacer.innerHTML = `<p class="aligned qpara">${arrData[rnum].text}</p>`;
+        if (arrData[rnum].author == null) {
+          authorPlace.innerHTML = `<p class="quoted">by:- UnKnown</p>`;
+        } else {
+          authorPlace.innerHTML = `<p class="quoted">by:-  ${arrData[rnum].author}</p>`;
+        }
+
+        // console.log(arrData[rnum].text);
+        // console.log(arrData[rnum].author);
+      };
+      const getQuet = async () => {
+        const api = "https://type.fit/api/quotes";
+        try {
+          let data = await fetch(api);
+          arrData = await data.json();
+          getNewquet();
+        } catch (error) {}
+      };
+      getQuet();
+      btnQuet.addEventListener("click", getQuet);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
